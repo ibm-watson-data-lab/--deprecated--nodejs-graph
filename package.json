@@ -4,7 +4,7 @@
   "description": "A shallow wrapper to use the IBM Graph - Prototype!",
   "main": "./lib/gds.js",
   "scripts": {
-    "test": "npm run test-jshint",
+    "test": "mocha test/*.js",
     "test-jshint": "jshint -c .jshintrc lib/"
   },
   "repository": {
@@ -22,6 +22,9 @@
     "underscore": "~1.8.3"
   },
   "devDependencies": {
+    "mocha": "^2.4.5",
+    "nock": "2.13.0",
+    "should": "^8.2.2",
     "jshint": "^2.9.1"
   }
 }
