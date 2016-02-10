@@ -46,19 +46,16 @@ describe('Authentication', function() {
   it('fails to authenticate against session API - GET ../_session', function(done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_session')
-                .reply(403, { bad: true});
+                .reply(403);
 
     var g = new GDS({url: APIURL, username: 'badusername', password: PASSWORD});
    
     g.session(function(err, data) {
-   //   should(data).equal(null);
-      console.log(err,data);
-      //err.should.be.a.String;
+      err.should.be.equal(403);
       mocks.done();
       done();
     });
     
   });
-  
   
 });
