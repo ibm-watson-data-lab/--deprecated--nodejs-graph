@@ -22,23 +22,43 @@ var SERVER = url.format(parsed);
 // load the GDS library and the http mocking library
 var GDS = require('../lib/gds.js');
 var nock = require('nock');
+var should = require('should');
 
 
 describe('Authentication', function() {
   
-  it('calls session API - GET ../_session', function(done) {
+  it('authenticates against session API - GET ../_session', function(done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_session')
                 .reply(200, {'gds-token': 'x'});
 
     var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
    
-    g.session(function(data) {
-      //should(err).equal(null);
+    g.session(function(err, data) {
+      should(err).equal(null);
       data.should.be.a.String;
       mocks.done();
       done();
     });
     
   });
+  
+  it('fails to authenticate against session API - GET ../_session', function(done) {
+    var mocks = nock(SERVER)
+                .get(STUB + '/_session')
+                .reply(403, { bad: true});
+
+    var g = new GDS({url: APIURL, username: 'badusername', password: PASSWORD});
+   
+    g.session(function(err, data) {
+   //   should(data).equal(null);
+      console.log(err,data);
+      //err.should.be.a.String;
+      mocks.done();
+      done();
+    });
+    
+  });
+  
+  
 });
