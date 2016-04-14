@@ -1,6 +1,6 @@
 {
   "name": "gds-wrapper",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "description": "A shallow wrapper to use the IBM Graph - Prototype!",
   "main": "./lib/gds.js",
   "scripts": {
