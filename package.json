@@ -20,7 +20,7 @@
   "homepage": "https://github.com/ibm-cds-labs/gds-wrapper",
   "dependencies": {
     "debug": "^2.2.0",
-    "request": "~2.67.0",
+    "request": "~2.70.0",
     "underscore": "~1.8.3"
   },
   "devDependencies": {
