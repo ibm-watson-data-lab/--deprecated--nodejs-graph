@@ -5,10 +5,10 @@ var APIURL = process.env.APIURL;
 var USERNAME = process.env.USERNAME;
 var PASSWORD =  process.env.PASSWORD;
 if (!APIURL) {
-  throw('Please set APIURL environment variable with the url of the Graph Data Store instance');
+  throw('Please set APIURL environment variable with the url of the IBM Graph instance');
 }
 if (!USERNAME || !PASSWORD) {
-  throw('Please set USERNAME & PASSSWORD environment variables with the credentials of the Graph Data Store instance');
+  throw('Please set USERNAME & PASSSWORD environment variables with the credentials of the IBM Graph instance');
 }
 
 // munge the URLs into pieces required by the library and by Nock
@@ -41,52 +41,52 @@ var _ = require('underscore');
 
 
 describe('Authentication', function() {
-  
+
   it('authenticates against session API - GET ../_session', function(done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_session')
                 .reply(200, {'gds-token': 'x'});
 
     var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-   
+
     g.session(function(err, data) {
       should(err).equal(null);
       data.should.be.a.String;
       mocks.done();
       done();
     });
-    
+
   });
-  
+
   it('fails to authenticate against session API - GET ../_session', function(done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_session')
                 .reply(403);
 
     var g = new GDS({url: APIURL, username: 'badusername', password: PASSWORD});
-   
+
     g.session(function(err, data) {
       err.should.be.equal(403);
       mocks.done();
       done();
     });
-    
+
   });
-  
+
 });
 
 describe('Schema', function() {
   var schema = { "edgeIndexes": [], "edgeLabels": [ {"directed": true, "multiplicity":"SIMPLE", "name":"route"} ], "propertyKeys": [ {"cardinality":"SINGLE", "dataType":"String", "name":"city"} ], "vertexIndexes": [ {"composite":false, "name":"cityIndex", "propertyKeys":[ "city" ], "unique":false} ], "vertexLabels": [ {"name": "location"} ] }
-  
+
   it('create schema - POST /schema', function(done) {
     var response = _.clone(SAMPLE_RESPONSE);
     response.result.data = [ schema ];
     var mocks = nock(SERVER)
                 .post(PATH + '/schema')
                 .reply(200, response);
-    
+
     var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-    
+
     g.schema().set(schema, function(err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
@@ -98,18 +98,18 @@ describe('Schema', function() {
       mocks.done();
       done();
     });
-    
+
   });
-  
+
   it('fetch schema - GET /schema', function(done) {
     var response = _.clone(SAMPLE_RESPONSE);
     response.result.data = [ schema ];
     var mocks = nock(SERVER)
                 .get(PATH + '/schema')
                 .reply(200, response);
-    
+
     var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-    
+
     g.schema().get(function(err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
@@ -120,21 +120,21 @@ describe('Schema', function() {
       mocks.done();
       done();
     });
-    
+
   });
-  
-  
+
+
   after( function(done) {
-    // return schema back to normal schema 
+    // return schema back to normal schema
     var blankschema = { "edgeIndexes": [], "edgeLabels": [ ], "propertyKeys": [  ], "vertexIndexes": [ ], "vertexLabels": [  ] }
     var response = _.clone(SAMPLE_RESPONSE);
     response.result.data = [ schema ];
     var mocks = nock(SERVER)
                 .post(PATH + '/schema')
                 .reply(200, response);
-    
+
     var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-    
+
     g.schema().set(schema, function(err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
@@ -146,7 +146,7 @@ describe('Schema', function() {
       mocks.done();
       done();
     });
-    
+
   });
-  
+
 });
