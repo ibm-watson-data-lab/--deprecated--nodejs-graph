@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ibm-cds-labs/nodejs-cloudant.git"
+    "url": "https://github.com/ibm-cds-labs/nodejs-graph.git"
   },
   "author": "Mike Elsmore <mike.elsmore@uk.ibm.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/ibm-cds-labs/nodejs-cloudant/issues"
+    "url": "https://github.com/ibm-cds-labs/nodejs-graph/issues"
   },
-  "homepage": "https://github.com/ibm-cds-labs/nodejs-cloudant",
+  "homepage": "https://github.com/ibm-cds-labs/nodejs-graph",
   "dependencies": {
     "debug": "^2.2.0",
     "request": "~2.72.0",
