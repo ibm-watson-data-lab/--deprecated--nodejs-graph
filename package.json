@@ -5,7 +5,7 @@
   "main": "./lib/gds.js",
   "scripts": {
     "test": "mocha",
-    "test-live": "NOCK_OFF=true mocha --timeout=5000",
+    "test-live": "NOCK_OFF=true mocha --timeout=10000",
     "test-jshint": "jshint -c .jshintrc lib/"
   },
   "repository": {
