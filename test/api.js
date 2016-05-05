@@ -7,8 +7,10 @@ var PASSWORD =  process.env.PASSWORD;
 if (!APIURL) {
   throw('Please set APIURL environment variable with the url of the IBM Graph instance');
 }
+
 if (!USERNAME || !PASSWORD) {
-  throw('Please set USERNAME & PASSSWORD environment variables with the credentials of the IBM Graph instance');
+  throw('Please set USERNAME & PASSSWORD environment variables '
+  + 'with the credentials of the IBM Graph instance');
 }
 
 // munge the URLs into pieces required by the library and by Nock
@@ -21,49 +23,50 @@ var SERVER = url.format(parsed);
 
 // sample response
 var SAMPLE_RESPONSE = {
-	"requestId": "71e9b56e-bded-402e-8fac-cfc83aec9c31",
-	"status": {
-		"message": "",
-		"code": 200,
-		"attributes": {}
-	},
-	"result": {
-		"data": null,
-		"meta": {}
-	}
+  requestId: '71e9b56e-bded-402e-8fac-cfc83aec9c31',
+  status: {
+    message: '',
+    code: 200,
+    attributes: {},
+  },
+  result: {
+    data: null,
+    meta: {},
+  },
 };
 
 // load the GDS library and the http mocking library
-var GDS = require('../lib/gds.js');
-var nock = require('nock');
+var GDS    = require('../lib/client.js');
+var nock   = require('nock');
 var should = require('should');
-var _ = require('underscore');
+var _      = require('underscore');
+var uuid   = require('uuid');
 
-describe('Graphs', function() {
-  it('retrieves a list of graphs - GET /_graphs', function(done) {
+describe('Graphs', function () {
+  it('retrieves a list of graphs - GET /_graphs', function (done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_graphs')
-                .reply(200, {'graphs': ['g','foo']});
+                .reply(200, { graphs: ['g', 'foo'] });
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-   
-    g.graphs().get(function(err, data) {
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+
+    g.graphs().get(function (err, data) {
       should(err).equal(null);
       data.should.be.an.Array;
       mocks.done();
       done();
     });
-    
+
   });
-  
-  it('adds new graphs', function(done) {
+
+  it('adds new graphs', function (done) {
     var mocks = nock(SERVER)
                 .post(STUB + '/_graphs')
-                .reply(201, {graphId: 'foo', dbUrl: 'https://example.com/user/foo'});
+                .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-   
-    g.graphs().add(function(err, data) {
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+
+    g.graphs().add(function (err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
       data.dbUrl.should.be.a.String;
@@ -71,21 +74,21 @@ describe('Graphs', function() {
       mocks.done();
       done();
     });
-    
+
   });
-  
-  it('deletes graphs', function(done) {
-    var name = 'somegraphname';
+
+  it('deletes graphs', function (done) {
+    var name = uuid.v1();
     var mocks = nock(SERVER)
                 .delete(STUB + '/_graphs/' + name)
                 .reply(200, {})
                 .post(STUB + '/_graphs/' + name)
-                .reply(201, {graphId: 'foo', dbUrl: 'https://example.com/user/foo'});
+                .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
-    g.graphs().add(function(err, data) {
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    g.graphs().add(function (err, data) {
       should(err).equal(null);
-      g.graphs().delete(function(err, data) {
+      g.graphs().delete(function (err, data) {
         should(err).equal(null);
         data.should.be.an.Object;
         mocks.done();
@@ -93,21 +96,19 @@ describe('Graphs', function() {
       }, name);
     }, name);
   });
-  
-  
+
 });
 
+describe('Authentication', function () {
 
-describe('Authentication', function() {
-
-  it('authenticates against session API - GET ../_session', function(done) {
+  it('authenticates against session API - GET ../_session', function (done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_session')
-                .reply(200, {'gds-token': 'x'});
+                .reply(200, { 'gds-token': 'x' });
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
 
-    g.session(function(err, data) {
+    g.session(function (err, data) {
       should(err).equal(null);
       data.should.be.a.String;
       mocks.done();
@@ -116,14 +117,14 @@ describe('Authentication', function() {
 
   });
 
-  it('fails to authenticate against session API - GET ../_session', function(done) {
+  it('fails to authenticate against session API - GET ../_session', function (done) {
     var mocks = nock(SERVER)
                 .get(STUB + '/_session')
                 .reply(403);
 
-    var g = new GDS({url: APIURL, username: 'badusername', password: PASSWORD});
+    var g = new GDS({ url: APIURL, username: 'badusername', password: PASSWORD });
 
-    g.session(function(err, data) {
+    g.session(function (err, data) {
       err.should.be.equal(403);
       mocks.done();
       done();
@@ -133,19 +134,26 @@ describe('Authentication', function() {
 
 });
 
-describe('Schema', function() {
-  var schema = { "edgeIndexes": [], "edgeLabels": [ {"directed": true, "multiplicity":"SIMPLE", "name":"route"} ], "propertyKeys": [ {"cardinality":"SINGLE", "dataType":"String", "name":"city"} ], "vertexIndexes": [ {"composite":false, "name":"cityIndex", "propertyKeys":[ "city" ], "unique":false} ], "vertexLabels": [ {"name": "location"} ] }
+describe('Schema', function () {
+  var schema = {
+    edgeIndexes: [],
+    edgeLabels: [{ multiplicity: 'SIMPLE', name: 'route' }],
+    propertyKeys: [{ cardinality: 'SINGLE', dataType: 'String', name: 'city' }],
+    vertexIndexes: [{ composite: false, name: 'cityIndex', propertyKeys: ['city'], unique: false }],
+    vertexLabels: [{ name: 'location' }],
+  };
 
-  it('create schema - POST /schema', function(done) {
+  it('create schema - POST /schema', function (done) {
     var response = _.clone(SAMPLE_RESPONSE);
-    response.result.data = [ schema ];
+    response.result.data = [schema];
     var mocks = nock(SERVER)
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
 
-    g.schema().set(schema, function(err, data) {
+    g.schema().set(schema, function (err, data) {
+      console.log(err, data);
       should(err).equal(null);
       data.should.be.an.Object;
       data.should.have.property('result');
@@ -181,19 +189,26 @@ describe('Schema', function() {
 
   });
 
-
-  after( function(done) {
+  after(function (done) {
     // return schema back to normal schema
-    var blankschema = { "edgeIndexes": [], "edgeLabels": [ ], "propertyKeys": [  ], "vertexIndexes": [ ], "vertexLabels": [  ] }
+    var blankschema = {
+      edgeIndexes: [],
+      edgeLabels: [],
+      propertyKeys: [],
+      vertexIndexes: [],
+      vertexLabels: [],
+    };
+
     var response = _.clone(SAMPLE_RESPONSE);
-    response.result.data = [ schema ];
+    response.result.data = [schema];
     var mocks = nock(SERVER)
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
 
-    g.schema().set(schema, function(err, data) {
+    g.schema().set(schema, function (err, data) {
+      console.log(err, data);
       should(err).equal(null);
       data.should.be.an.Object;
       data.should.have.property('result');

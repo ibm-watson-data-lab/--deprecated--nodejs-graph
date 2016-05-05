@@ -1,4 +1,4 @@
-var GDS = require('../lib/gds.js');
+var GDS = require('../lib/client.js');
 var should = require('should');
 
 describe('Test config', function () {
