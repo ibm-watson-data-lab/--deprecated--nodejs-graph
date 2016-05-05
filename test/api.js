@@ -39,6 +39,64 @@ var nock = require('nock');
 var should = require('should');
 var _ = require('underscore');
 
+describe('Graphs', function() {
+  it('retrieves a list of graphs - GET /_graphs', function(done) {
+    var mocks = nock(SERVER)
+                .get(STUB + '/_graphs')
+                .reply(200, {'graphs': ['g','foo']});
+
+    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+   
+    g.graphs().get(function(err, data) {
+      should(err).equal(null);
+      data.should.be.an.Array;
+      mocks.done();
+      done();
+    });
+    
+  });
+  
+  it('adds new graphs', function(done) {
+    var mocks = nock(SERVER)
+                .post(STUB + '/_graphs')
+                .reply(201, {graphId: 'foo', dbUrl: 'https://example.com/user/foo'});
+
+    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+   
+    g.graphs().add(function(err, data) {
+      should(err).equal(null);
+      data.should.be.an.Object;
+      data.dbUrl.should.be.a.String;
+      data.graphId.should.be.a.String;
+      mocks.done();
+      done();
+    });
+    
+  });
+  
+  it('deletes graphs', function(done) {
+    var name = 'somegraphname';
+    var mocks = nock(SERVER)
+                .delete(STUB + '/_graphs/' + name)
+                .reply(200, {})
+                .post(STUB + '/_graphs/' + name)
+                .reply(201, {graphId: 'foo', dbUrl: 'https://example.com/user/foo'});
+
+    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+    g.graphs().add(function(err, data) {
+      should(err).equal(null);
+      g.graphs().delete(function(err, data) {
+        should(err).equal(null);
+        data.should.be.an.Object;
+        mocks.done();
+        done();
+      }, name);
+    }, name);
+  });
+  
+  
+});
+
 
 describe('Authentication', function() {
 
