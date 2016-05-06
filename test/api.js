@@ -66,7 +66,7 @@ describe('Graphs', function () {
 
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
 
-    g.graphs().add(function (err, data) {
+    g.graphs().create(function (err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
       data.dbUrl.should.be.a.String;
@@ -86,7 +86,7 @@ describe('Graphs', function () {
                 .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
 
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
-    g.graphs().add(function (err, data) {
+    g.graphs().create(function (err, data) {
       should(err).equal(null);
       g.graphs().delete(function (err, data) {
         should(err).equal(null);
