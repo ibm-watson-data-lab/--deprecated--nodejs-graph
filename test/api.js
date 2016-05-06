@@ -88,12 +88,12 @@ describe('Graphs', function () {
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
     g.graphs().create(name, function (err, data) {
       should(err).equal(null);
-      g.graphs().delete(function (err, data) {
+      g.graphs().delete(name, function (err, data) {
         should(err).equal(null);
         data.should.be.an.Object;
         mocks.done();
         done();
-      }, name);
+      });
     });
   });
 
@@ -135,11 +135,21 @@ describe('Authentication', function () {
 });
 
 describe('Schema', function () {
+
+  var d = new Date();
+  var now = d.getTime();
   var schema = {
     edgeIndexes: [],
     edgeLabels: [{ multiplicity: 'SIMPLE', name: 'route' }],
-    propertyKeys: [{ cardinality: 'SINGLE', dataType: 'String', name: 'city' }],
-    vertexIndexes: [{ composite: false, name: 'cityIndex', propertyKeys: ['city'], unique: false }],
+    propertyKeys: [{ cardinality: 'SINGLE', dataType: 'String', name: 'city' + now }],
+    vertexIndexes: [
+      {
+        composite: false,
+        name: 'cityIndex',
+        propertyKeys: ['city' + now],
+        unique: false,
+      },
+    ],
     vertexLabels: [{ name: 'location' }],
   };
 
@@ -153,14 +163,13 @@ describe('Schema', function () {
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
 
     g.schema().set(schema, function (err, data) {
-      console.log(err, data);
       should(err).equal(null);
       data.should.be.an.Object;
       data.should.have.property('result');
       data.result.should.be.an.Object;
       data.result.should.have.property('data');
       data.result.data.should.be.an.Array;
-      data.result.data[0].should.be.an.Object
+      data.result.data[0].should.be.an.Object;
       mocks.done();
       done();
     });
@@ -207,15 +216,14 @@ describe('Schema', function () {
 
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
 
-    g.schema().set(schema, function (err, data) {
-      console.log(err, data);
+    g.schema().set(blankschema, function (err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
       data.should.have.property('result');
       data.result.should.be.an.Object;
       data.result.should.have.property('data');
       data.result.data.should.be.an.Array;
-      data.result.data[0].should.be.an.Object
+      data.result.data[0].should.be.an.Object;
       mocks.done();
       done();
     });
