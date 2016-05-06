@@ -1,10 +1,16 @@
-# gds-wrapper
-A shallow wrapper to use the IBM Graph - Prototype!
+# IBM Graph client for Node.js
 
+A shallow wrapper for IBM Graph - not supported!
 
-## Debugging
+## Install as dependency
 
-In order to see debugging messages for every API call that is made, set the environment variable `DEBUG` before running your application that uses the *gds-wrapper* library e.g.
+```sh
+npm install ibm-graph-client --save
+```
+
+## Enable debugging output
+
+In order to see debugging messages for every API call that is made, set the environment variable `DEBUG` before running your application that uses the library.
 
 ```sh
 export DEBUG=gds-wrapper
