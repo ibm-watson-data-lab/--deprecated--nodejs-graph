@@ -86,7 +86,7 @@ describe('Graphs', function () {
                 .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
 
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
-    g.graphs().create(function (err, data) {
+    g.graphs().create(name, function (err, data) {
       should(err).equal(null);
       g.graphs().delete(function (err, data) {
         should(err).equal(null);
@@ -94,7 +94,7 @@ describe('Graphs', function () {
         mocks.done();
         done();
       }, name);
-    }, name);
+    });
   });
 
 });
