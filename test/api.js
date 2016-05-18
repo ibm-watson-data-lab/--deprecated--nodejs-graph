@@ -48,7 +48,7 @@ describe('Graphs', function () {
                 .get(STUB + '/_graphs')
                 .reply(200, { graphs: ['g', 'foo'] });
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
 
     g.graphs().get(function (err, data) {
       should(err).equal(null);
@@ -64,7 +64,7 @@ describe('Graphs', function () {
                 .post(STUB + '/_graphs')
                 .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
 
     g.graphs().create(function (err, data) {
       should(err).equal(null);
@@ -85,7 +85,7 @@ describe('Graphs', function () {
                 .post(STUB + '/_graphs/' + name)
                 .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
     g.graphs().create(name, function (err, data) {
       should(err).equal(null);
       g.graphs().delete(name, function (err, data) {
@@ -106,7 +106,7 @@ describe('Authentication', function () {
                 .get(STUB + '/_session')
                 .reply(200, { 'gds-token': 'x' });
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
 
     g.session(function (err, data) {
       should(err).equal(null);
@@ -122,7 +122,7 @@ describe('Authentication', function () {
                 .get(STUB + '/_session')
                 .reply(403);
 
-    var g = new GDS({ url: APIURL, username: 'badusername', password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: 'badusername', password: PASSWORD, session: 'broken-token' });
 
     g.session(function (err, data) {
       err.should.be.equal(403);
@@ -160,7 +160,7 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
 
     g.schema().set(schema, function (err, data) {
       should(err).equal(null);
@@ -183,7 +183,7 @@ describe('Schema', function () {
                 .get(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({url: APIURL, username: USERNAME, password: PASSWORD});
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
 
     g.schema().get(function(err, data) {
       should(err).equal(null);
@@ -214,7 +214,7 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
 
     g.schema().set(blankschema, function (err, data) {
       should(err).equal(null);
