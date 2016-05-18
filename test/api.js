@@ -160,18 +160,27 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
+    var g = new GDS({
+      url: APIURL,
+      username: USERNAME,
+      password: PASSWORD,
+      session: 'broken-token',
+    });
 
-    g.schema().set(schema, function (err, data) {
-      should(err).equal(null);
-      data.should.be.an.Object;
-      data.should.have.property('result');
-      data.result.should.be.an.Object;
-      data.result.should.have.property('data');
-      data.result.data.should.be.an.Array;
-      data.result.data[0].should.be.an.Object;
-      mocks.done();
-      done();
+    g.graphs().create(function (err, data) {
+      g.config.url = data.dbUrl;
+
+      g.schema().set(schema, function (err, data) {
+        should(err).equal(null);
+        data.should.be.an.Object;
+        data.should.have.property('result');
+        data.result.should.be.an.Object;
+        data.result.should.have.property('data');
+        data.result.data.should.be.an.Array;
+        data.result.data[0].should.be.an.Object;
+        mocks.done();
+        done();
+      });
     });
 
   });

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
-    "test-live": "NOCK_OFF=true mocha --timeout=10000",
+    "test-live": "NOCK_OFF=true mocha --timeout=20000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
   },
   "repository": {
