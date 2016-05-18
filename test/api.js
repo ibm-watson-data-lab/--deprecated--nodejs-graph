@@ -122,7 +122,7 @@ describe('Authentication', function () {
                 .get(STUB + '/_session')
                 .reply(403);
 
-    var g = new GDS({ url: APIURL, username: 'badusername', password: PASSWORD, session: 'broken-token' });
+    var g = new GDS({ url: APIURL, username: 'badusername', password: PASSWORD });
 
     g.session(function (err, data) {
       err.should.be.equal(403);
