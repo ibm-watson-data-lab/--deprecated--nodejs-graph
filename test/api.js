@@ -160,15 +160,20 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({
+    var gc = new GDS({
       url: APIURL,
       username: USERNAME,
       password: PASSWORD,
       session: 'broken-token',
     });
 
-    g.graphs().create(function (err, data) {
-      g.config.url = data.dbUrl;
+    gc.graphs().create(function (err, data) {
+      var g = new GDS({
+        url: data.dbUrl,
+        username: USERNAME,
+        password: PASSWORD,
+        session: gc.config.session,
+      });
 
       g.schema().set(schema, function (err, data) {
         should(err).equal(null);
