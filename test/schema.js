@@ -72,7 +72,6 @@ describe('Schema', function () {
       url: APIURL,
       username: USERNAME,
       password: PASSWORD,
-      session: 'broken-token',
     });
 
     g.schema().set(schema, function (err, data) {
@@ -89,9 +88,9 @@ describe('Schema', function () {
 
   });
 
-  it('fetch schema - GET /schema', function(done) {
+  it('fetch schema - GET /schema', function (done) {
     var response = _.clone(SAMPLE_RESPONSE);
-    response.result.data = [ schema ];
+    response.result.data = [schema];
     var mocks = nock(SERVER)
                 .get(PATH + '/schema')
                 .reply(200, response);
@@ -100,7 +99,6 @@ describe('Schema', function () {
       url: APIURL,
       username: USERNAME,
       password: PASSWORD,
-      session: 'broken-token'
     });
 
     g.schema().get(function (err, data) {
