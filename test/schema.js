@@ -42,98 +42,6 @@ var should = require('should');
 var _      = require('underscore');
 var uuid   = require('uuid');
 
-describe('Graphs', function () {
-  it('retrieves a list of graphs - GET /_graphs', function (done) {
-    var mocks = nock(SERVER)
-                .get(STUB + '/_graphs')
-                .reply(200, { graphs: ['g', 'foo'] });
-
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
-
-    g.graphs().get(function (err, data) {
-      should(err).equal(null);
-      data.should.be.an.Array;
-      mocks.done();
-      done();
-    });
-
-  });
-
-  it('adds new graphs', function (done) {
-    var mocks = nock(SERVER)
-                .post(STUB + '/_graphs')
-                .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
-
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
-
-    g.graphs().create(function (err, data) {
-      should(err).equal(null);
-      data.should.be.an.Object;
-      data.dbUrl.should.be.a.String;
-      data.graphId.should.be.a.String;
-      mocks.done();
-      done();
-    });
-
-  });
-
-  it('deletes graphs', function (done) {
-    var name = uuid.v1();
-    var mocks = nock(SERVER)
-                .delete(STUB + '/_graphs/' + name)
-                .reply(200, {})
-                .post(STUB + '/_graphs/' + name)
-                .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
-
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
-    g.graphs().create(name, function (err, data) {
-      should(err).equal(null);
-      g.graphs().delete(name, function (err, data) {
-        should(err).equal(null);
-        data.should.be.an.Object;
-        mocks.done();
-        done();
-      });
-    });
-  });
-
-});
-
-describe('Authentication', function () {
-
-  it('authenticates against session API - GET ../_session', function (done) {
-    var mocks = nock(SERVER)
-                .get(STUB + '/_session')
-                .reply(200, { 'gds-token': 'x' });
-
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
-
-    g.session(function (err, data) {
-      should(err).equal(null);
-      data.should.be.a.String;
-      mocks.done();
-      done();
-    });
-
-  });
-
-  it('fails to authenticate against session API - GET ../_session', function (done) {
-    var mocks = nock(SERVER)
-                .get(STUB + '/_session')
-                .reply(403);
-
-    var g = new GDS({ url: APIURL, username: 'badusername', password: PASSWORD });
-
-    g.session(function (err, data) {
-      err.should.be.equal(403);
-      mocks.done();
-      done();
-    });
-
-  });
-
-});
-
 describe('Schema', function () {
 
   var d = new Date();
@@ -160,7 +68,12 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
+    var g = new GDS({
+      url: APIURL,
+      username: USERNAME,
+      password: PASSWORD,
+      session: 'broken-token',
+    });
 
     g.schema().set(schema, function (err, data) {
       should(err).equal(null);
@@ -183,9 +96,14 @@ describe('Schema', function () {
                 .get(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
+    var g = new GDS({
+      url: APIURL,
+      username: USERNAME,
+      password: PASSWORD,
+      session: 'broken-token'
+    });
 
-    g.schema().get(function(err, data) {
+    g.schema().get(function (err, data) {
       should(err).equal(null);
       data.should.be.an.Object;
       data.should.have.property('result');
@@ -214,7 +132,11 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
+    var g = new GDS({
+      url: APIURL,
+      username: USERNAME,
+      password: PASSWORD
+    });
 
     g.schema().set(blankschema, function (err, data) {
       should(err).equal(null);
