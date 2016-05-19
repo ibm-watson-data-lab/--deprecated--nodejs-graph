@@ -2,6 +2,8 @@
 
 A shallow wrapper for IBM Graph - not supported!
 
+[![Build Status](https://travis-ci.org/ibm-cds-labs/nodejs-graph.svg?branch=master)](https://travis-ci.org/ibm-cds-labs/nodejs-graph)
+
 ## Install as dependency
 
 ```sh
