@@ -42,7 +42,6 @@ var should = require('should');
 var _      = require('underscore');
 var uuid   = require('uuid');
 
-
 describe('Schema', function () {
 
   var d = new Date();
@@ -61,8 +60,6 @@ describe('Schema', function () {
     ],
     vertexLabels: [{ name: 'location' }],
   };
-
-  VAR
 
   it('create schema - POST /schema', function (done) {
     var response = _.clone(SAMPLE_RESPONSE);
@@ -135,7 +132,11 @@ describe('Schema', function () {
                 .post(PATH + '/schema')
                 .reply(200, response);
 
-    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+    var g = new GDS({
+      url: APIURL,
+      username: USERNAME,
+      password: PASSWORD
+    });
 
     g.schema().set(blankschema, function (err, data) {
       should(err).equal(null);
