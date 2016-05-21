@@ -114,7 +114,7 @@ describe('Index', function () {
     var mocks = nock(SERVER)
                 .delete(PATH + '/index/' + name)
                 .reply(200, {})
-                .post(STUB + '/index/')
+                .post(PATH + '/index/')
                 .reply(201, {});
 
     var index = {
@@ -173,6 +173,7 @@ describe('Index', function () {
     g.index().create(index, function (err, data) {
       should(err).equal(null);
       g.index().getStatus(indexStatusName, function (err, data) {
+        should(err).equal(null);
         data.should.be.an.Object;
         mocks.done();
         done();
@@ -186,13 +187,15 @@ describe('Index', function () {
     var response = _.clone(SAMPLE_RESPONSE);
     response.result.data = [];
     var mocks = nock(SERVER)
-                .delete(PATH + '/index')
+                .delete(PATH + '/index/'+indexName)
+                .reply(200, response)
+                .delete(PATH + '/index/'+indexStatusName)
                 .reply(200, response);
 
     var g = new GDS({
       url: APIURL,
       username: USERNAME,
-      password: PASSWORD
+      password: PASSWORD,
     });
 
     g.index().delete(indexName, function (err, data) {
