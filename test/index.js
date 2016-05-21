@@ -112,10 +112,10 @@ describe('Index', function () {
   it('deletes index', function (done) {
     var name = uuid.v1();
     var mocks = nock(SERVER)
+                .post(PATH + '/index')
+                .reply(201, {})
                 .delete(PATH + '/index/' + name)
-                .reply(200, {})
-                .post(PATH + '/index/')
-                .reply(201, {});
+                .reply(200, {});
 
     var index = {
       type: 'vertex',
@@ -151,7 +151,7 @@ describe('Index', function () {
     var mocks = nock(SERVER)
                 .post(PATH + '/index')
                 .reply(201, { })
-                .get(PATH + '/index/' + indexStatusName)
+                .get(PATH + '/index/' + indexStatusName + '/status')
                 .reply(201, { });
 
     var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
@@ -200,16 +200,12 @@ describe('Index', function () {
 
     g.index().delete(indexName, function (err, data) {
       should(err).equal(null);
-      data.should.be.an.Object;
-      mocks.done();
-      done();
-    });
-
-    g.index().delete(indexStatusName, function (err, data) {
-      should(err).equal(null);
-      data.should.be.an.Object;
-      mocks.done();
-      done();
+      g.index().delete(indexStatusName, function (err, data) {
+        should(err).equal(null);
+        data.should.be.an.Object;
+        mocks.done();
+        done();
+      });
     });
 
   });
