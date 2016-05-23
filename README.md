@@ -15,13 +15,13 @@ npm install ibm-graph-client --save
 In order to see debugging messages for every API call that is made, set the environment variable `DEBUG` before running your application that uses the library.
 
 ```sh
-export DEBUG=gds-wrapper
+export DEBUG=ibm-graph-client
 node app.js
 ```
 
 or 
 
 ```sh
-DEBUG=gds-wrapper node app.js
+DEBUG=ibm-graph-client node app.js
 ```
 
