@@ -4,7 +4,7 @@
   "description": "A shallow wrapper to use the IBM Graph - Prototype!",
   "main": "./lib/client.js",
   "scripts": {
-    "test": "npm run test-jshint && npm run test-local && npm run test-live",
+    "test": "snyk test && npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
     "test-live": "NOCK_OFF=true mocha --timeout=20000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
@@ -30,6 +30,7 @@
     "mocha": "^2.4.5",
     "nock": "8.0.0",
     "should": "^8.3.2",
-    "uuid": "^2.0.2"
+    "uuid": "^2.0.2",
+    "snyk": "^1.14.3"
   }
 }
