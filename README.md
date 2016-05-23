@@ -25,3 +25,6 @@ or
 DEBUG=ibm-graph-client node app.js
 ```
 
+## Documentation
+
+To get started, follow the [interactive guide for using IBM Graph with Node.js](https://ibm-graph-docs.ng.bluemix.net/interactive-guide-node-js.html).
