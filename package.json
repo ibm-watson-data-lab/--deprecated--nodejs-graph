@@ -1,12 +1,12 @@
 {
   "name": "ibm-graph-client",
-  "version": "0.3.2",
+  "version": "0.3.1",
   "description": "A shallow wrapper to use the IBM Graph - Prototype!",
   "main": "./lib/client.js",
   "scripts": {
     "test": "snyk test && npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
-    "test-live": "NOCK_OFF=true mocha --timeout=20000",
+    "test-live": "NOCK_OFF=true mocha --timeout=10000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
   },
   "repository": {
