@@ -43,8 +43,8 @@ var _      = require('underscore');
 var uuid   = require('uuid');
 
 // Storage for the index name
-var indexName = uuid.v4();
-var indexStatusName = uuid.v4();
+var indexName = uuid.v4().replace(/\-/g, '');
+var indexStatusName = uuid.v4().replace(/\-/g, '');
 
 describe('Index', function () {
   it('retrieves a list of indexes - GET /index', function (done) {
@@ -73,10 +73,11 @@ describe('Index', function () {
     var index = {
       type: 'vertex',
       propertyKeys: [{
-          name: 'name',
+          name: 'takeAGuess',
           dataType: 'String',
           cardinality: 'SINGLE',
-        }],
+        },
+      ],
       indexOnly: {
         name: 'person',
       },
@@ -110,7 +111,7 @@ describe('Index', function () {
   });
 
   it('deletes index', function (done) {
-    var name = uuid.v1();
+    var name = uuid.v1().replace(/\-/g, '');
     var mocks = nock(SERVER)
                 .post(PATH + '/index')
                 .reply(201, {})
@@ -123,7 +124,8 @@ describe('Index', function () {
           name: 'name',
           dataType: 'String',
           cardinality: 'SINGLE',
-      }],
+        },
+      ],
       indexOnly: {
         name: 'person',
       },
