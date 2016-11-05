@@ -7,7 +7,7 @@
   "scripts": {
     "test": "snyk test && npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
-    "test-live": "NOCK_OFF=true mocha --timeout=10000",
+    "test-live": "NOCK_OFF=true mocha --timeout=180000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
   },
   "repository": {
@@ -35,7 +35,7 @@
     "mocha": "^3.0.0",
     "nock": "8.0.0",
     "should": "^10.0.0",
-    "uuid": "^2.0.2",
+    "uuid": "^2.0.3",
     "snyk": "^1.17.5"
   },
   "engines": { "node" : ">=4" }
