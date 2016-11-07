@@ -32,11 +32,11 @@
   "devDependencies": {
     "dotenv": "^2.0.0",
     "jshint": "^2.9.4",
-    "mocha": "^3.0.0",
+    "should": "^11.1.1",
+    "uuid": "^2.0.3",
+    "mocha": "^3.1.2",
     "nock": "9.0.2",
-    "should": "^10.0.0",
-    "snyk": "^1.18.1",
-    "uuid": "^2.0.3"
+    "snyk": "^1.18.1"
   },
   "engines": { "node" : ">=4" }
 }
