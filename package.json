@@ -1,6 +1,6 @@
 {
   "name": "ibm-graph-client",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "A shallow wrapper to use the IBM Graph - Prototype!",
   "keywords": ["ibm", "graph", "tinkerpop"],
   "main": "./lib/client.js",
@@ -33,7 +33,7 @@
     "dotenv": "^2.0.0",
     "jshint": "^2.9.4",
     "should": "^11.1.1",
-    "uuid": "^2.0.3",
+    "uuid": "^3.0.0",
     "mocha": "^3.1.2",
     "nock": "9.0.2",
     "snyk": "^1.18.1"
