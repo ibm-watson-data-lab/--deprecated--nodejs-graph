@@ -1,12 +1,13 @@
 {
   "name": "ibm-graph-client",
-  "version": "0.3.2",
+  "version": "0.3.7",
   "description": "A shallow wrapper to use the IBM Graph - Prototype!",
+  "keywords": ["ibm", "graph", "tinkerpop"],
   "main": "./lib/client.js",
   "scripts": {
     "test": "snyk test && npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
-    "test-live": "NOCK_OFF=true mocha --timeout=20000",
+    "test-live": "NOCK_OFF=true mocha --timeout=180000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
   },
   "repository": {
@@ -14,6 +15,10 @@
     "url": "https://github.com/ibm-cds-labs/nodejs-graph.git"
   },
   "author": "Mike Elsmore <mike.elsmore@uk.ibm.com>",
+  "contributors": [
+    "Glynn Bird <glynn.bird@gmail.com>",
+    "Kim Stebel <kim.stebel@gmail.com>"
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/ibm-cds-labs/nodejs-graph/issues"
@@ -21,16 +26,17 @@
   "homepage": "https://github.com/ibm-cds-labs/nodejs-graph",
   "dependencies": {
     "debug": "^2.2.0",
-    "request": "~2.72.0",
+    "request": "^2.78.0",
     "underscore": "~1.8.3"
   },
   "devDependencies": {
     "dotenv": "^2.0.0",
-    "jshint": "^2.9.2",
-    "mocha": "^2.4.5",
-    "nock": "8.0.0",
-    "should": "^8.3.2",
-    "uuid": "^2.0.2",
-    "snyk": "^1.14.3"
-  }
+    "jshint": "^2.9.4",
+    "should": "^11.1.1",
+    "uuid": "^3.0.0",
+    "mocha": "^3.1.2",
+    "nock": "9.0.2",
+    "snyk": "^1.18.1"
+  },
+  "engines": { "node" : ">=4" }
 }
