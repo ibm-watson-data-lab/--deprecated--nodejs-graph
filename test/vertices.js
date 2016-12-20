@@ -97,6 +97,31 @@ describe('Vertices', function () {
 
   });
 
+  it('update vertex', function (done) {
+    var mocks = nock(SERVER)
+                .post(PATH + '/vertices')
+                .reply(201, SAMPLE_RESPONSE)
+                .get(PATH + '/vertices/1')
+                .reply(200, SAMPLE_RESPONSE)
+                .put(PATH + '/vertices/1')
+                .reply(200, [true]);
+
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD });
+
+    g.vertices().create({ test: 'test' }, function (err, data) {
+      var id = data.result.data[0].id;
+      g.vertices().get(id, function (err, data) {
+        g.vertices().update(id, { test: 'test', delete: 'delete' }, function (err, data) {
+          should(err).equal(null);
+          data.should.be.an.Object;
+          mocks.done();
+          done();
+        });
+      });
+    });
+
+  });
+
   it('delete vertex', function (done) {
     var mocks = nock(SERVER)
                 .post(PATH + '/vertices')
