@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').load({ silent: true });
 
 // environment variables
 var APIURL = process.env.APIURL;
