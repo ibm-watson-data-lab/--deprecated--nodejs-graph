@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').load({ silent: true });
 
 // environment variables
 var APIURL = process.env.APIURL;
@@ -91,6 +91,25 @@ describe('Graphs', function () {
       g.graphs().delete(name, function (err, data) {
         should(err).equal(null);
         data.should.be.an.Object;
+        mocks.done();
+        done();
+      });
+    });
+  });
+
+  it('change graph', function (done) {
+    var name = uuid.v1();
+    var mocks = nock(SERVER)
+                .get(STUB + '/_graphs')
+                .reply(200, { graphs: ['g', name] })
+                .post(STUB + '/_graphs/' + name)
+                .reply(201, { graphId: 'foo', dbUrl: 'https://example.com/user/foo' });
+
+    var g = new GDS({ url: APIURL, username: USERNAME, password: PASSWORD, session: 'broken-token' });
+    g.graphs().create(name, function (err, data) {
+      should(err).equal(null);
+      g.graphs().set(name, function (err, data) {
+        data.should.be.an.String;
         mocks.done();
         done();
       });
