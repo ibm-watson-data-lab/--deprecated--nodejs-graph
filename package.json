@@ -5,7 +5,7 @@
   "keywords": ["ibm", "graph", "tinkerpop"],
   "main": "./lib/client.js",
   "scripts": {
-    "test": "snyk test && npm run test-jshint && npm run test-local && npm run test-live",
+    "test": "npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
     "test-live": "NOCK_OFF=true mocha --timeout=180000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
@@ -35,8 +35,7 @@
     "should": "^11.1.1",
     "uuid": "^3.0.0",
     "mocha": "^3.1.2",
-    "nock": "9.0.2",
-    "snyk": "^1.18.1"
+    "nock": "9.0.2"
   },
   "engines": { "node" : ">=4" }
 }
