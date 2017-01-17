@@ -5,7 +5,7 @@
   "keywords": ["ibm", "graph", "tinkerpop"],
   "main": "./lib/client.js",
   "scripts": {
-    "test": "snyk test && npm run test-jshint && npm run test-local && npm run test-live",
+    "test": "npm run test-jshint && npm run test-local && npm run test-live",
     "test-local": "mocha",
     "test-live": "NOCK_OFF=true mocha --timeout=180000",
     "test-jshint": "./node_modules/jshint/bin/jshint -c .jshintrc lib/"
