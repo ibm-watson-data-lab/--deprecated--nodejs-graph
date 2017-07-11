@@ -1,10 +1,8 @@
 # IBM Graph client for Node.js
 
-A shallow wrapper for IBM Graph - not supported!
+:no_entry_sign: This project is no longer maintained.
 
-[![Build Status](https://travis-ci.org/ibm-cds-labs/nodejs-graph.svg?branch=master)](https://travis-ci.org/ibm-cds-labs/nodejs-graph)
-[![Code Climate](https://codeclimate.com/github/ibm-cds-labs/nodejs-graph/badges/gpa.svg)](https://codeclimate.com/github/ibm-cds-labs/nodejs-graph)
-[![Test Coverage](https://codeclimate.com/github/ibm-cds-labs/nodejs-graph/badges/coverage.svg)](https://codeclimate.com/github/ibm-cds-labs/nodejs-graph/coverage)
+A shallow wrapper for IBM Graph - not supported!
 
 ## Install as dependency
 
